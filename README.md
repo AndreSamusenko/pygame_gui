@@ -1,1 +1,1 @@
-"# pygame_gui" 
+An OPEN-SOURCE GUI library for pygame.
