@@ -49,3 +49,17 @@ class ButtonImage(ButtonBase):
         self.main_state = main_state
         self.hovered_state = hovered_state
         self.pressed_state = pressed_state
+
+
+class ButtonForm(ButtonBase):
+    def __init__(self, height, width, main_color, hovered_color, pressed_color):
+        super().__init__(height, width)
+        self.main_state = ButtonForm.__create_form((height, width), main_color)
+        self.hovered_state = ButtonForm.__create_form((height, width), hovered_color)
+        self.pressed_state = ButtonForm.__create_form((height, width), pressed_color)
+
+    @staticmethod
+    def __create_form(size, color):
+        form = pygame.Surface(size)
+        form.fill(color)
+        return form
