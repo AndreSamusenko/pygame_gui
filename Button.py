@@ -18,18 +18,17 @@ class ButtonBase:
         pos = pygame.mouse.get_pos()
         return self.x <= pos[0] <= self.x + self.width and self.y <= pos[1] <= self.y + self.height
 
-    def __is_clicked(self):
-        global clicked
+    def __is_clicked(self, clicked):
         return clicked and self.__is_hovered()
 
     def __set_x_y(self, x, y):
         self.x = x
         self.y = y
 
-    def render(self, x, y):
+    def render(self, x, y, clicked):
         self.__set_x_y(x, y)
 
-        if self.__is_clicked():
+        if self.__is_clicked(clicked):
             screen.blit(self.pressed_state, (self.x, self.y))
             self.action()
         elif self.__is_hovered():
