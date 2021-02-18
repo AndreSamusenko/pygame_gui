@@ -3,41 +3,53 @@ from settings import *
 
 def a_decorator_passing_arbitrary_arguments(function_to_decorate):
     def a_wrapper_accepting_arbitrary_arguments(*args, **kwargs):
-        print("Передали ли мне что-нибудь?:")
-        print(args)
-        print(kwargs)
         function_to_decorate(*args, **kwargs)
     return a_wrapper_accepting_arbitrary_arguments
 
 
 class ButtonBase:
     def __init__(self, height, width, text=None):
-        self.height = height
-        self.width = width
-        self.is_pressed = False
-        self.x = 0
-        self.y = 0
+        self._height = height
+        self._width = width
+        self.__is_pressed = False
+        self._x = 0
+        self._y = 0
         self._main_state = None
         self._hovered_state = None
         self._pressed_state = None
-        self.action = None
-        self.text = text
+        self.__action = None
+        self._text = text
+        self.__font = None
+
+    @property
+    def is_pressed(self):
+        return self.__is_pressed
+
+    def __make_main_state(self):
+        screen.blit(self._main_state, (self._x, self._y))
+
+    def __make_hovered_state(self):
+        screen.blit(self._hovered_state, (self._x, self._y))
+
+    def __make_pressed_state(self):
+        screen.blit(self._pressed_state, (self._x, self._y))
+        self.__action()
 
     def __is_hovered(self):
         pos = pygame.mouse.get_pos()
-        return self.x <= pos[0] <= self.x + self.width and self.y <= pos[1] <= self.y + self.height
+        return self._x <= pos[0] <= self._x + self._width and self._y <= pos[1] <= self._y + self._height
 
     def __is_clicked(self, _clicked):
         return _clicked and self.__is_hovered()
 
     def __set_x_y(self, x, y):
-        self.x = x
-        self.y = y
+        self._x = x
+        self._y = y
 
-    def render(self, x, y, _clicked):
+    def render(self, x, y, _is_mb_clicked):
         self.__set_x_y(x, y)
 
-        if self.__is_clicked(_clicked):
+        if self.__is_clicked(_is_mb_clicked):
             self.__make_pressed_state()
         elif self.__is_hovered():
             self.__make_hovered_state()
@@ -46,19 +58,12 @@ class ButtonBase:
 
     def set_action(self, action):
         if action:
-            self.action = action
+            self.__action = action
         else:
             print("На кнопку не было добавлено действие")
 
-    def __make_main_state(self):
-        screen.blit(self._main_state, (self.x, self.y))
-
-    def __make_hovered_state(self):
-        screen.blit(self._hovered_state, (self.x, self.y))
-
-    def __make_pressed_state(self):
-        screen.blit(self._pressed_state, (self.x, self.y))
-        self.action()
+    def click_virtually(self):
+        self.__make_pressed_state()
 
 
 class ButtonImage(ButtonBase):

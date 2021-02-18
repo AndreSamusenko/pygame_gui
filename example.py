@@ -19,9 +19,9 @@ while True:
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            clicked = True
-    Button1.render(300, 300, clicked)
-    Button2.render(450, 300, clicked)
+            MB_CLICKED = True
+    Button1.render(300, 300, MB_CLICKED)
+    Button2.render(450, 300, MB_CLICKED)
     pygame.display.update()
-    clicked = False
+    MB_CLICKED = False
     clock.tick(30)
