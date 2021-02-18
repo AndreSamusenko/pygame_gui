@@ -4,12 +4,12 @@ from settings import *
 
 
 def printer():
-    print("Нажали")
+    print("Button was cliked")
 
 
 Button1 = ButtonImage(100, 100, main_state_img, pressed_state_img, pressed_state_img)
 Button1.set_action(printer)
-Button2 = ButtonForm(100, 100, (255, 174, 100), (205, 174, 100), (245, 174, 100))
+Button2 = ButtonForm(100, 100, (255, 174, 100), (205, 174, 100), (105, 174, 100))
 Button2.set_action(printer)
 
 
