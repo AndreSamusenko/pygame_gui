@@ -8,7 +8,7 @@ def a_decorator_passing_arbitrary_arguments(function_to_decorate):
 
 
 class ButtonBase:
-    def __init__(self, height, width, text=None):
+    def __init__(self, width, height, text=None):
         self._height = height
         self._width = width
         self.__is_pressed = False
@@ -18,21 +18,40 @@ class ButtonBase:
         self._hovered_state = None
         self._pressed_state = None
         self.__action = None
-        self._text = text
-        self.__font = None
+        self.__text = text
+        self.__font = pygame.font.Font('freesansbold.ttf', 24)
+        self.__font_color = (0, 0, 0)
+        self.__text_obj = None
+        if text:
+            self.__create_text(text)
 
     @property
     def is_pressed(self):
         return self.__is_pressed
 
+    @property
+    def center(self):
+        return tuple([self._x + self._width / 2, self._y + self._height / 2])
+
+    @property
+    def center_x(self):
+        return self._x + self._width / 2
+
+    @property
+    def center_y(self):
+        return self._y + self._height / 2
+
     def __make_main_state(self):
         screen.blit(self._main_state, (self._x, self._y))
+        self.__show_text()
 
     def __make_hovered_state(self):
         screen.blit(self._hovered_state, (self._x, self._y))
+        self.__show_text()
 
     def __make_pressed_state(self):
         screen.blit(self._pressed_state, (self._x, self._y))
+        self.__show_text()
         self.__action()
 
     def __is_hovered(self):
@@ -45,6 +64,15 @@ class ButtonBase:
     def __set_x_y(self, x, y):
         self._x = x
         self._y = y
+
+    def __create_text(self, text):
+        self.__text = text
+        self.__text_obj = self.__font.render(str(text), True, self.__font_color)
+
+    def __show_text(self):
+        if self.__text_obj:
+            screen.blit(self.__text_obj, (self.center_x - self.__text_obj.get_width() / 2,
+                                          self.center_y - self.__font.get_height() / 2))
 
     def render(self, x, y, _is_mb_clicked):
         self.__set_x_y(x, y)
@@ -65,9 +93,16 @@ class ButtonBase:
     def click_virtually(self):
         self.__make_pressed_state()
 
+    def set_font(self, font='freesansbold.ttf', size=24, color=pygame.Color.b):
+        self.__font = pygame.font.Font(font, size)
+        self.__font_color = color
+
+    def set_text(self, text):
+        self.__create_text(text)
+
 
 class ButtonImage(ButtonBase):
-    def __init__(self, height, width, main_state, hovered_state, pressed_state, text=""):
+    def __init__(self, width, height,  main_state, hovered_state, pressed_state, text=""):
         super().__init__(height, width, text)
         self._main_state = main_state
         self._hovered_state = hovered_state
@@ -75,7 +110,7 @@ class ButtonImage(ButtonBase):
 
 
 class ButtonForm(ButtonBase):
-    def __init__(self, height, width, main_color, hovered_color, pressed_color, text=""):
+    def __init__(self, width, height, main_color, hovered_color, pressed_color, text=""):
         super().__init__(height, width, text)
         self._main_state = ButtonForm.__create_form((height, width), main_color)
         self._hovered_state = ButtonForm.__create_form((height, width), hovered_color)
