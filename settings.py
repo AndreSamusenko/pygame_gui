@@ -1,4 +1,5 @@
 import pygame
+from abc import ABC, abstractmethod
 
 pygame.display.set_caption("GUI test")
 screen = pygame.display.set_mode((800, 500))

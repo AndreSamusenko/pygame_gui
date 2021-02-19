@@ -7,7 +7,8 @@ def a_decorator_passing_arbitrary_arguments(function_to_decorate):
     return a_wrapper_accepting_arbitrary_arguments
 
 
-class ButtonBase:
+class ButtonBase(ABC):
+    @abstractmethod
     def __init__(self, width, height, text=None):
         self._height = height
         self._width = width
@@ -40,6 +41,14 @@ class ButtonBase:
     @property
     def center_y(self):
         return self._y + self._height / 2
+
+    @property
+    def text(self):
+        return self.__text
+
+    @text.setter
+    def text(self, text):
+        self.__create_text(text)
 
     def __make_main_state(self):
         screen.blit(self._main_state, (self._x, self._y))
@@ -96,9 +105,6 @@ class ButtonBase:
     def set_font(self, font='freesansbold.ttf', size=24, color=pygame.Color.b):
         self.__font = pygame.font.Font(font, size)
         self.__font_color = color
-
-    def set_text(self, text):
-        self.__create_text(text)
 
 
 class ButtonImage(ButtonBase):
