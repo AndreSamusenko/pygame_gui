@@ -26,3 +26,4 @@ while True:
     pygame.display.update()
     MB_CLICKED = False
     clock.tick(15)
+
