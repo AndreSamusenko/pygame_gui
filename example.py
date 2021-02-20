@@ -4,11 +4,11 @@ from settings import *
 
 
 def printer(sender=None):
-    print("Button", sender, "was cliked")
+    print("Button", str(sender)[-11:-1], "was cliked")
 
 
 Button1 = ButtonImage(100, 100, main_state_img, pressed_state_img, pressed_state_img, "PRESS")
-Button1.set_action(lambda: printer(Button2))
+Button1.set_action(lambda: printer(Button1))
 Button2 = ButtonForm(100, 100, (255, 174, 100), (205, 174, 100), (105, 174, 100), "PRESS")
 Button2.set_action(lambda: printer(Button2))
 
