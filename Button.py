@@ -1,12 +1,6 @@
 from settings import *
 
 
-def a_decorator_passing_arbitrary_arguments(function_to_decorate):
-    def a_wrapper_accepting_arbitrary_arguments(*args, **kwargs):
-        function_to_decorate(*args, **kwargs)
-    return a_wrapper_accepting_arbitrary_arguments
-
-
 class ButtonBase(ABC):
     @abstractmethod
     def __init__(self, width, height, text=None):
@@ -102,14 +96,14 @@ class ButtonBase(ABC):
     def click_virtually(self):
         self.__make_pressed_state()
 
-    def set_font(self, font='freesansbold.ttf', size=24, color=pygame.Color.b):
+    def set_font(self, font='freesansbold.ttf', size=24, color=(0, 0, 0)):
         self.__font = pygame.font.Font(font, size)
         self.__font_color = color
 
 
 class ButtonImage(ButtonBase):
     def __init__(self, width, height,  main_state, hovered_state, pressed_state, text=""):
-        super().__init__(height, width, text)
+        super().__init__(width, height, text)
         self._main_state = main_state
         self._hovered_state = hovered_state
         self._pressed_state = pressed_state
@@ -117,10 +111,10 @@ class ButtonImage(ButtonBase):
 
 class ButtonForm(ButtonBase):
     def __init__(self, width, height, main_color, hovered_color, pressed_color, text=""):
-        super().__init__(height, width, text)
-        self._main_state = ButtonForm.__create_form((height, width), main_color)
-        self._hovered_state = ButtonForm.__create_form((height, width), hovered_color)
-        self._pressed_state = ButtonForm.__create_form((height, width), pressed_color)
+        super().__init__(width, height, text)
+        self._main_state = ButtonForm.__create_form((width, height), main_color)
+        self._hovered_state = ButtonForm.__create_form((width, height), hovered_color)
+        self._pressed_state = ButtonForm.__create_form((width, height), pressed_color)
 
     @staticmethod
     def __create_form(size, color):
