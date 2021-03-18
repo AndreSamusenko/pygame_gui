@@ -12,6 +12,8 @@ class ButtonBase(ABC):
         self._main_state = None
         self._hovered_state = None
         self._pressed_state = None
+        self._is_active = True
+        self._is_visible = True
         self.__action = None
         self.__text = text
         self.__font = pygame.font.Font('freesansbold.ttf', 24)
@@ -43,6 +45,22 @@ class ButtonBase(ABC):
     @text.setter
     def text(self, text):
         self.__create_text(text)
+
+    @property
+    def is_active(self):
+        return self._is_active
+
+    @is_active.setter
+    def is_active(self, state: bool):
+        self._is_active = state
+
+    @property
+    def is_visible(self):
+        return self._is_active
+
+    @is_visible.setter
+    def is_visible(self, active_state: bool):
+        self._is_active = active_state
 
     def __make_main_state(self):
         screen.blit(self._main_state, (self._x, self._y))

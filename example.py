@@ -11,6 +11,7 @@ def printer(sender=None):
 
 Button1 = ButtonImage(100, 100, main_state_img, pressed_state_img, pressed_state_img, "PRESS")
 Button1.set_action(lambda: printer(Button1))
+
 Button2 = ButtonForm(200, 100, (255, 174, 100), (205, 174, 100), (105, 174, 100), "PRESS")
 Button2.set_action(printer)
 
